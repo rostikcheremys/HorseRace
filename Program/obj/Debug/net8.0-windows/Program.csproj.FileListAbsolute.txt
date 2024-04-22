@@ -47,3 +47,4 @@ D:\Programming\OOP\HorseRace\Program\Program\bin\Debug\net8.0-windows\Images\Hor
 D:\Programming\OOP\HorseRace\Program\Program\bin\Debug\net8.0-windows\Images\HorsesMask\mask_0010.png
 D:\Programming\OOP\HorseRace\Program\Program\bin\Debug\net8.0-windows\Images\HorsesMask\mask_0011.png
 D:\Programming\OOP\HorseRace\Program\Program\obj\Debug\net8.0-windows\Program_Content.g.cs
+D:\Programming\OOP\HorseRace\Program\Program\obj\Debug\net8.0-windows\Program.sourcelink.json

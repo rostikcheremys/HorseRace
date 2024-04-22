@@ -8,10 +8,7 @@ using System.Windows.Threading;
 
 namespace Program
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
 		private ObservableCollection<HorseRace> _horses = new();
 		private readonly Stopwatch _raceStopwatch = new();
@@ -39,7 +36,7 @@ namespace Program
 
 		public List<int> Bets { get; } = [10, 20, 50, 100, 200, 300, 500, 1000];
 		
-		private int _currentBetIndex = 0;
+		private int _currentBetIndex;
 
 		private int CurrentBetIndex
 		{
@@ -57,7 +54,7 @@ namespace Program
 
 		private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Blue, Colors.Green, Colors.Purple, Colors.Orange];
 
-		private int _finishedCount = 0;
+		private int _finishedCount;
 
 		private double _balance = 1000;
 
@@ -65,7 +62,7 @@ namespace Program
 		{
 			get => _balance; 
 
-			set
+			private set
 			{
 				if (value <= 0)
 				{
@@ -88,23 +85,23 @@ namespace Program
 
 		private void InitializeHorses()
 		{
-			var offsetY = 110;
+			int offsetY = 150;
 
-			var racetrackHeight = 120;
+			int racetrackHeight = 200;
 
-			var numberOfHorses = int.Parse((NumberOfHorsesComboBox.SelectedItem as ComboBoxItem).Content.ToString());
+			int numberOfHorses = int.Parse((NumberOfHorsesComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
 
-			var space = racetrackHeight / (numberOfHorses - 1);
+			int space = racetrackHeight / (numberOfHorses - 1);
 
-			for (var i = 0; i < numberOfHorses; i++)
+			for (int i = 0; i < numberOfHorses; i++)
 			{
-				var horse = new HorseRace(_horsesNames[i], _jockeyColors[i], 20, offsetY, val => Balance += val);
+				HorseRace horse = new HorseRace(_horsesNames[i], _jockeyColors[i], 20, offsetY, val => Balance += val);
 
 				_horses.Add(horse);
 
 				offsetY += space;
 
-				var jockeyRectangle = new Rectangle
+				Rectangle jockeyRectangle = new Rectangle
 				{
 					Width = horse.JockeyImage.Width,
 					Height = horse.JockeyImage.Height,
@@ -118,6 +115,7 @@ namespace Program
 				RaceTrack.Children.Add(jockeyRectangle);
 
 				RaceTrack.Children.Add(horse.HorseImage);
+				
 				Canvas.SetLeft(horse.HorseImage, horse.PositionX);
 				Canvas.SetTop(horse.HorseImage, horse.PositionY);
 				Canvas.SetLeft(jockeyRectangle, horse.PositionX);
@@ -128,7 +126,7 @@ namespace Program
 		private void InitializeAnimationTimer()
 		{
 			_animationTimer.Interval = TimeSpan.FromMilliseconds(80);
-			_animationTimer.Tick += async (sender, e) => await UpdateHorsePositionsAsync();
+			_animationTimer.Tick += async (_, _) => await UpdateHorsePositionsAsync();
 		}
 
 		private async Task UpdateHorsePositionsAsync()
@@ -145,7 +143,7 @@ namespace Program
 				Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
 				
 
-				if (horse.PositionX >= 600 && !horse.Finished)
+				if (horse is { PositionX: >= 950, Finished: false })
 				{
 					horse.Time = _raceStopwatch.Elapsed;
 					_finishedCount++;

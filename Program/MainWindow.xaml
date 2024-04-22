@@ -69,7 +69,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTextColumn Header="Name" FontSize="20" Binding="{Binding Name}"/>
-					<DataGridTextColumn Header="Position" FontSize="20" Binding="{Binding ЗCurrentPosition}"/>
+					<DataGridTextColumn Header="Position" FontSize="20" Binding="{Binding CurrentPosition}"/>
 					<DataGridTextColumn Header="Time" FontSize="20" Binding="{Binding Time}"/>
 					<DataGridTextColumn Header="Coefficient" FontSize="20" Binding="{Binding Coefficient}"/>
 					<DataGridTextColumn Header="Money" FontSize="20" Binding="{Binding Money}"/>

@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 
@@ -8,7 +6,7 @@ namespace Program
 {
 	class HorseRace
 	{
-		private Random _random = new();
+		private readonly Random _random = new();
 
 		public Image HorseImage { get; set; }
 
@@ -30,7 +28,7 @@ namespace Program
 			}
 		}
 
-		public int Speed { get; private set; }
+		private int Speed { get; set; }
 
 		public int CurrentPosition { get; set; }
 
@@ -40,7 +38,7 @@ namespace Program
 
 		private int _animationFrame;
 
-		public int AnimationFrame
+		private int AnimationFrame
 		{
 			get => _animationFrame;
 			set => _animationFrame = (value % 8);
@@ -62,10 +60,10 @@ namespace Program
 
 		private double _coefficient;
 
-        public double Coefficient 
+		public double Coefficient 
 		{
 			get => _coefficient; 
-
+			
 			set 
 			{
 				_coefficient = value;
@@ -84,19 +82,19 @@ namespace Program
 				if (value)
 				{
 					IsBidClosed = true;
-					if (CurrentPosition == 1) ChangeBalance(Money * Coefficient);
+					if (CurrentPosition == 1) _changeBalance(Money * Coefficient);
 				}
 			} 
 		}
 
-		public Action<double> ChangeBalance;
+		private readonly Action<double> _changeBalance;
 
 		public HorseRace(string name, Color color, int x, int y, Action<double> changeBalance)
 		{
 			Name = name;
 			Color = color;
 			IsBidClosed = false;
-			ChangeBalance += changeBalance;
+			_changeBalance += changeBalance;
 
 			Speed = _random.Next(3, 7);
 			Coefficient = 1.7 - Speed / 10.0;
