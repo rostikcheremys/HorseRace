@@ -85,7 +85,7 @@ namespace Program
 
 		private void InitializeHorses()
 		{
-			int offsetY = 180;
+			int offsetY = 210;
 
 			int racetrackHeight = 250;
 
@@ -143,7 +143,7 @@ namespace Program
 				Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
 				
 
-				if (horse is { PositionX: >= 950, Finished: false })
+				if (horse is { PositionX: >=840, Finished: false })
 				{
 					horse.Time = _raceStopwatch.Elapsed;
 					_finishedCount++;
@@ -173,7 +173,7 @@ namespace Program
 			if (Balance >= 0) BetBtn.IsEnabled = Balance > 0;
 
 			_animationTimer.Start();
-			_raceStopwatch.Start();
+			_raceStopwatch.Restart();
 			
 			PlayPanel.Visibility = Visibility.Collapsed;
 			_finishedCount = 0;

@@ -41,10 +41,10 @@ namespace Program
 		private int AnimationFrame
 		{
 			get => _animationFrame;
-			set => _animationFrame = value % 10;
+			set => _animationFrame = value % 8;
 		}
 
-		public bool IsBidClosed { get; set; }
+		public bool IsBidClosed { get; private set; }
 
 		private double _money;
 
@@ -60,10 +60,10 @@ namespace Program
 
 		private double _coefficient;
 
-		public double Coefficient 
+        public double Coefficient 
 		{
 			get => _coefficient; 
-			
+
 			set 
 			{
 				_coefficient = value;
@@ -96,7 +96,7 @@ namespace Program
 			IsBidClosed = false;
 			_changeBalance += changeBalance;
 
-			Speed = _random.Next(3, 7);
+			Speed = _random.Next(4, 7);
 			Coefficient = 1.7 - Speed / 10.0;
 			AnimationFrame = 0;
 

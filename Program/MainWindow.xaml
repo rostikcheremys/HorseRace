@@ -15,8 +15,8 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<StackPanel Grid.Column="0" Width="200" Background="SeaGreen">
-			<Border Height="110" Background="Yellow">
+		<StackPanel Grid.Column="0" Width="200" Background="White">
+			<Border Height="113" Background="Yellow">
 				<TextBlock Text="HORSE RACE" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
 			</Border>
 			<Border Height="60" Margin="0 15 0 0">
@@ -29,17 +29,17 @@
 
 			<Border Height="60" Background="Transparent">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Button Content="&#x25C0;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Previous_Bet_Btn_Click"/>
+					<Button Content="&#x25C0;" Height="25" Width="25" Background="Gray" Margin="5" Click="Previous_Bet_Btn_Click"/>
 					<TextBlock x:Name="BetDisplay" Text="{Binding Bets[CurrentBetIndex], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='{}{0}$'}" Margin="5" FontSize="24" FontWeight="Bold"/>
-					<Button Content="&#x25B6;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Next_Bet_Btn_Click" />
+					<Button Content="&#x25B6;" Height="25" Width="25" Background="Gray" Margin="5" Click="Next_Bet_Btn_Click" />
 				</StackPanel>
 			</Border>
 
 			<Border Height="60" Background="Transparent">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Button Content="&#x25C0;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Previous_Horse_Btn_Click"/>
+					<Button Content="&#x25C0;" Height="25" Width="25" Background="Gray" Margin="5" Click="Previous_Horse_Btn_Click"/>
 					<TextBlock x:Name="ActiveHorseNameDisplay" Text="{Binding CurrentActiveHorse, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="5" FontSize="24" FontWeight="Bold"/>
-					<Button Content="&#x25B6;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Next_Horse_Btn_Click" />
+					<Button Content="&#x25B6;" Height="25" Width="25" Background="Gray" Margin="5" Click="Next_Horse_Btn_Click" />
 				</StackPanel>
 			</Border>
 
