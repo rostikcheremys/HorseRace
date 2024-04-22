@@ -29,17 +29,17 @@
 
 			<Border Height="60" Background="Transparent">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Button Content="&#x25C0;" Background="Yellow" Margin="5" Click="Previous_Bet_Btn_Click"/>
+					<Button Content="&#x25C0;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Previous_Bet_Btn_Click"/>
 					<TextBlock x:Name="BetDisplay" Text="{Binding Bets[CurrentBetIndex], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='{}{0}$'}" Margin="5" FontSize="24" FontWeight="Bold"/>
-					<Button Content="&#x25B6;" Background="Yellow" Margin="5" Click="Next_Bet_Btn_Click" />
+					<Button Content="&#x25B6;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Next_Bet_Btn_Click" />
 				</StackPanel>
 			</Border>
 
 			<Border Height="60" Background="Transparent">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Button Content="&#x25C0;" Background="Yellow" Margin="5" Click="Previous_Horse_Btn_Click"/>
+					<Button Content="&#x25C0;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Previous_Horse_Btn_Click"/>
 					<TextBlock x:Name="ActiveHorseNameDisplay" Text="{Binding CurrentActiveHorse, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="5" FontSize="24" FontWeight="Bold"/>
-					<Button Content="&#x25B6;" Background="Yellow" Margin="5" Click="Next_Horse_Btn_Click" />
+					<Button Content="&#x25B6;" Height="25" Width="25" Background="Yellow" Margin="5" Click="Next_Horse_Btn_Click" />
 				</StackPanel>
 			</Border>
 
@@ -55,24 +55,24 @@
 			</Grid.RowDefinitions>
 
 			<Canvas Grid.Row="0" Name="RaceTrack" ClipToBounds="True">
-				<Image Stretch="UniformToFill" Height="{Binding ElementName=RaceTrack, Path=ActualHeight}" Width="{Binding ElementName=RaceTrack, Path=ActualWidth}"/>
+				<Image Source="Images/Background/Track.png" Stretch="UniformToFill" Height="{Binding ElementName=RaceTrack, Path=ActualHeight}" Width="{Binding ElementName=RaceTrack, Path=ActualWidth}"/>
 			</Canvas>
 
-			<DataGrid Grid.Row="1" x:Name="HorsesDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch">
+			<DataGrid Grid.Row="1" Height="300" x:Name="HorsesDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Color">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<Rectangle Width="24" Height="24" Fill="{Binding Color, Converter={StaticResource ColorConverter}}"
+								<Rectangle Width="20" Height="20" Fill="{Binding Color, Converter={StaticResource ColorConverter}}"
 								           d:DataContext="{d:DesignInstance }" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Header="Name" FontSize="20" Binding="{Binding Name}"/>
-					<DataGridTextColumn Header="Position" FontSize="20" Binding="{Binding CurrentPosition}"/>
-					<DataGridTextColumn Header="Time" FontSize="20" Binding="{Binding Time}"/>
-					<DataGridTextColumn Header="Coefficient" FontSize="20" Binding="{Binding Coefficient}"/>
-					<DataGridTextColumn Header="Money" FontSize="20" Binding="{Binding Money}"/>
+					<DataGridTextColumn Header="Name" FontSize="17" Binding="{Binding Name}"/>
+					<DataGridTextColumn Header="Position" FontSize="17" Binding="{Binding CurrentPosition}"/>
+					<DataGridTextColumn Header="Time" FontSize="17" Binding="{Binding Time}"/>
+					<DataGridTextColumn Header="Coefficient" FontSize="17" Binding="{Binding Coefficient}"/>
+					<DataGridTextColumn Header="Money" FontSize="17" Binding="{Binding Money}"/>
 				</DataGrid.Columns>
 			</DataGrid>
 			
@@ -88,6 +88,8 @@
 					<ComboBoxItem Content="3"/>
 					<ComboBoxItem Content="4"/>
 					<ComboBoxItem Content="5"/>
+					<ComboBoxItem Content="6"/>
+					<ComboBoxItem Content="7"/>
 				</ComboBox>
 				<Button Content="START" Margin="10 0 0 0" Foreground="Black" FontSize="20"  Background="Transparent" BorderBrush="Transparent" FontWeight="Bold" Click="Play_Button_Click"/>
 			</StackPanel>

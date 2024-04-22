@@ -14,7 +14,7 @@ namespace Program
 		private readonly Stopwatch _raceStopwatch = new();
 		private readonly DispatcherTimer _animationTimer = new();
 
-		private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Tucker", "Sabrina"];
+		private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Coco", "Spirit", "Rocky", "Blaze" ];
 		private List<string> _activeHorsesNames = ["Lucky"];
 		private int _currentActiveHorseIndex;
 		
@@ -52,7 +52,7 @@ namespace Program
 			}
 		}
 
-		private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Blue, Colors.Green, Colors.Purple, Colors.Orange];
+		private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Orange, Colors.Yellow, Colors.Green, Colors.DodgerBlue, Colors.Blue,  Colors.Indigo];
 
 		private int _finishedCount;
 
@@ -85,9 +85,9 @@ namespace Program
 
 		private void InitializeHorses()
 		{
-			int offsetY = 150;
+			int offsetY = 180;
 
-			int racetrackHeight = 200;
+			int racetrackHeight = 250;
 
 			int numberOfHorses = int.Parse((NumberOfHorsesComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
 

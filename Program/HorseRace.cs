@@ -7,6 +7,8 @@ namespace Program
 	class HorseRace
 	{
 		private readonly Random _random = new();
+		
+		private readonly Action<double> _changeBalance;
 
 		public Image HorseImage { get; set; }
 
@@ -41,7 +43,7 @@ namespace Program
 		private int AnimationFrame
 		{
 			get => _animationFrame;
-			set => _animationFrame = (value % 8);
+			set => _animationFrame = value % 8;
 		}
 
 		public bool IsBidClosed { get; set; }
@@ -87,8 +89,7 @@ namespace Program
 			} 
 		}
 
-		private readonly Action<double> _changeBalance;
-
+		
 		public HorseRace(string name, Color color, int x, int y, Action<double> changeBalance)
 		{
 			Name = name;
@@ -125,7 +126,7 @@ namespace Program
 
 			AnimationFrame++;
 
-			var fileNumber = _animationFrame.ToString().Length > 1 ? _animationFrame.ToString() : "0" + _animationFrame.ToString();
+			string fileNumber = _animationFrame.ToString().Length > 1 ? _animationFrame.ToString() : "0" + _animationFrame.ToString();
 
 			HorseImage.Source = new BitmapImage(new Uri($"Images/Horses/WithOutBorder_00{fileNumber}.png", UriKind.Relative));
 			JockeyImage.Source = new BitmapImage(new Uri($"Images/HorsesMask/mask_00{fileNumber}.png", UriKind.Relative));

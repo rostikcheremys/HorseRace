@@ -41,7 +41,7 @@ namespace Program
 		private int AnimationFrame
 		{
 			get => _animationFrame;
-			set => _animationFrame = (value % 8);
+			set => _animationFrame = value % 10;
 		}
 
 		public bool IsBidClosed { get; set; }
