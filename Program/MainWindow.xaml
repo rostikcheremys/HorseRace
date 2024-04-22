@@ -1,0 +1,96 @@
+﻿<Window x:Class="Program.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:program="clr-namespace:Program"
+        mc:Ignorable="d"
+        Title="HorseRace" Width="1200" Height="800" FontFamily="Arial"> 
+	<Window.Resources>
+		<program:ColorToSolidColorBrushConverter x:Key="ColorConverter"/>
+	</Window.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<StackPanel Grid.Column="0" Width="200" Background="SeaGreen">
+			<Border Height="110" Background="Yellow">
+				<TextBlock Text="HORSE RACE" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+			</Border>
+			<Border Height="60" Margin="0 15 0 0">
+				<TextBlock Text="Bettings" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+			</Border>
+
+			<Border Height="60" Background="Transparent">
+				<TextBlock x:Name="DisplayBalance" Text="{Binding Balance, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='Balance: {0}$'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+			</Border>
+
+			<Border Height="60" Background="Transparent">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+					<Button Content="&#x25C0;" Background="Yellow" Margin="5" Click="Previous_Bet_Btn_Click"/>
+					<TextBlock x:Name="BetDisplay" Text="{Binding Bets[CurrentBetIndex], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='{}{0}$'}" Margin="5" FontSize="24" FontWeight="Bold"/>
+					<Button Content="&#x25B6;" Background="Yellow" Margin="5" Click="Next_Bet_Btn_Click" />
+				</StackPanel>
+			</Border>
+
+			<Border Height="60" Background="Transparent">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+					<Button Content="&#x25C0;" Background="Yellow" Margin="5" Click="Previous_Horse_Btn_Click"/>
+					<TextBlock x:Name="ActiveHorseNameDisplay" Text="{Binding CurrentActiveHorse, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="5" FontSize="24" FontWeight="Bold"/>
+					<Button Content="&#x25B6;" Background="Yellow" Margin="5" Click="Next_Horse_Btn_Click" />
+				</StackPanel>
+			</Border>
+
+			<Border Height="60">
+				<Button x:Name="BetBtn" Content="BET" Margin="10 0 10 0" Background="Yellow" VerticalAlignment="Center" FontWeight="Bold" FontSize="26" IsEnabled="False" Click="BetBtn_Click"/>
+			</Border>
+		</StackPanel>
+
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="3 *"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+
+			<Canvas Grid.Row="0" Name="RaceTrack" ClipToBounds="True">
+				<Image Stretch="UniformToFill" Height="{Binding ElementName=RaceTrack, Path=ActualHeight}" Width="{Binding ElementName=RaceTrack, Path=ActualWidth}"/>
+			</Canvas>
+
+			<DataGrid Grid.Row="1" x:Name="HorsesDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Color">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Rectangle Width="24" Height="24" Fill="{Binding Color, Converter={StaticResource ColorConverter}}"
+								           d:DataContext="{d:DesignInstance }" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Header="Name" FontSize="20" Binding="{Binding Name}"/>
+					<DataGridTextColumn Header="Position" FontSize="20" Binding="{Binding ЗCurrentPosition}"/>
+					<DataGridTextColumn Header="Time" FontSize="20" Binding="{Binding Time}"/>
+					<DataGridTextColumn Header="Coefficient" FontSize="20" Binding="{Binding Coefficient}"/>
+					<DataGridTextColumn Header="Money" FontSize="20" Binding="{Binding Money}"/>
+				</DataGrid.Columns>
+			</DataGrid>
+			
+			<StackPanel x:Name="PlayPanel" Grid.Row="0" Grid.Column="0" Width="120" Margin="10" Orientation="Horizontal" Height="30" VerticalAlignment="Bottom" >
+				<ComboBox Name="NumberOfHorsesComboBox" SelectedIndex="0" Width="40" Foreground="Black" FontSize="20" FontWeight="Bold" MaxDropDownHeight="100">
+					<ComboBox.Background>
+						<LinearGradientBrush EndPoint="0,1">
+							<GradientStop Color="#FFF0F0F0"/>
+							<GradientStop Color="#FFF73737" Offset="1"/>
+						</LinearGradientBrush>
+					</ComboBox.Background>
+					<ComboBoxItem Content="2"/>
+					<ComboBoxItem Content="3"/>
+					<ComboBoxItem Content="4"/>
+					<ComboBoxItem Content="5"/>
+				</ComboBox>
+				<Button Content="START" Margin="10 0 0 0" Foreground="Black" FontSize="20"  Background="Transparent" BorderBrush="Transparent" FontWeight="Bold" Click="Play_Button_Click"/>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</Window>
