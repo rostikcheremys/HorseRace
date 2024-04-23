@@ -24,7 +24,7 @@
 			</Border>
 
 			<Border Height="60" Background="Transparent">
-				<TextBlock x:Name="DisplayBalance" Text="{Binding Balance, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='Balance: {0}$'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+				<TextBlock x:Name="DisplayBalance" Text="{Binding Balance, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='Balance: {0}$'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontWeight="Bold"/>
 			</Border>
 
 			<Border Height="60" Background="Transparent">

@@ -1,237 +1,243 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Windows;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace Program
 {
-	public partial class MainWindow
-	{
-		public MainWindow()
-		{
-			InitializeComponent();
-			InitializeAnimationTimer();
-			OnCrtBetIndexChanging();
-			Balance = 1000;
-		}
-		
-		private ObservableCollection<HorseRace> _horses = new();
-		private readonly Stopwatch _raceStopwatch = new();
-		private readonly DispatcherTimer _animationTimer = new();
+    public partial class MainWindow
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            InitializeAnimationTimer();
+            OnCrtBetIndexChanging();
+            Balance = 1000;
+        }
 
-		private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Coco", "Spirit", "Rocky", "Blaze" ];
-		private List<string> _activeHorsesNames = ["Lucky"];
-		private int _currentActiveHorseIndex;
-		
-		private int CurrentActiveHorseIndex 
-		{
-			get => _currentActiveHorseIndex;
+        private List<HorseRace> _horses = new ();
+        private readonly Stopwatch _raceStopwatch = new ();
+        private readonly DispatcherTimer _animationTimer = new ();
 
-			set
-			{
-				if (value < 0) _currentActiveHorseIndex = _activeHorsesNames.Count - 1;
-				else if (value > _activeHorsesNames.Count - 1) _currentActiveHorseIndex = 0;
-				else _currentActiveHorseIndex = value;
+        private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Coco", "Spirit", "Rocky", "Blaze"];
+        private List<string> _activeHorsesNames = ["Lucky"];
+        private int _currentActiveHorseIndex;
 
-				OnCrtActiveHorseIndexChanging();
-			}
-		}
+        private int CurrentActiveHorseIndex
+        {
+            get => _currentActiveHorseIndex;
 
-		public string CurrentActiveHorse => _activeHorsesNames[_currentActiveHorseIndex];
+            set
+            {
+                if (value < 0) _currentActiveHorseIndex = _activeHorsesNames.Count - 1;
+                else if (value > _activeHorsesNames.Count - 1) _currentActiveHorseIndex = 0;
+                else _currentActiveHorseIndex = value;
 
-		public List<int> Bets { get; } = [10, 20, 50, 100, 200, 300, 500, 1000];
-		
-		private int _currentBetIndex;
+                OnCrtActiveHorseIndexChanging();
+            }
+        }
 
-		private int CurrentBetIndex
-		{
-			get => _currentBetIndex;
+        public string CurrentActiveHorse => _activeHorsesNames[_currentActiveHorseIndex];
 
-			set
-			{
-				if (value < 0) _currentBetIndex = Bets.Count - 1;
-				else if (value > Bets.Count - 1) _currentBetIndex = 0;
-				else _currentBetIndex = value;
+        public List<int> Bets { get; } = [10, 20, 50, 100, 200, 300, 500, 1000];
 
-				OnCrtBetIndexChanging();
-			}
-		}
+        private int _currentBetIndex;
 
-		private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Orange, Colors.Yellow, Colors.Green, Colors.DodgerBlue, Colors.Blue,  Colors.Indigo];
+        private int CurrentBetIndex
+        {
+            get => _currentBetIndex;
 
-		private int _finishedCount;
+            set
+            {
+                if (value < 0) _currentBetIndex = Bets.Count - 1;
+                else if (value > Bets.Count - 1) _currentBetIndex = 0;
+                else _currentBetIndex = value;
 
-		private double _balance = 1000;
+                OnCrtBetIndexChanging();
+            }
+        }
 
-		public double Balance 
-		{
-			get => _balance; 
+        private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Orange, Colors.Yellow, Colors.Green, Colors.DodgerBlue, Colors.Blue, Colors.Indigo];
 
-			private set
-			{
-				if (value <= 0)
-				{
-					_balance = 0;
-					BetBtn.IsEnabled = false;
-				}
-				else _balance = value;
+        private int _finishedCount;
 
-				OnBalanceChanging();
-			}
-		}
+        private double _balance = 1000;
 
-		
+        public double Balance
+        {
+            get => _balance;
 
-		private void InitializeHorses()
-		{
-			int offsetY = 210;
+            private set
+            {
+                if (value <= 0)
+                {
+                    _balance = 0;
+                    BetBtn.IsEnabled = false;
+                }
+                else _balance = value;
 
-			int racetrackHeight = 250;
+                OnBalanceChanging();
+            }
+        }
 
-			int numberOfHorses = int.Parse((NumberOfHorsesComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
 
-			int space = racetrackHeight / (numberOfHorses - 1);
 
-			for (int i = 0; i < numberOfHorses; i++)
-			{
-				HorseRace horse = new HorseRace(_horsesNames[i], _jockeyColors[i], 20, offsetY, val => Balance += val);
+        private void InitializeHorses()
+        {
+            int offsetY = 210;
 
-				_horses.Add(horse);
+            int racetrackHeight = 250;
 
-				offsetY += space;
+            int numberOfHorses = int.Parse((NumberOfHorsesComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
 
-				Rectangle jockeyRectangle = new Rectangle
-				{
-					Width = horse.JockeyImage.Width,
-					Height = horse.JockeyImage.Height,
-					Fill = new SolidColorBrush(horse.Color),
-					OpacityMask = new ImageBrush
-					{
-						ImageSource = horse.JockeyImage.Source
-					}
-				};
+            int space = racetrackHeight / (numberOfHorses - 1);
 
-				RaceTrack.Children.Add(jockeyRectangle);
+            for (int i = 0; i < numberOfHorses; i++)
+            {
+                HorseRace horse = new HorseRace(_horsesNames[i], _jockeyColors[i], 20, offsetY, val => Balance += val);
 
-				RaceTrack.Children.Add(horse.HorseImage);
-				
-				Canvas.SetLeft(horse.HorseImage, horse.PositionX);
-				Canvas.SetTop(horse.HorseImage, horse.PositionY);
-				Canvas.SetLeft(jockeyRectangle, horse.PositionX);
-				Canvas.SetTop(jockeyRectangle, horse.PositionY - 30);
-			}
-		}
+                _horses.Add(horse);
 
-		private void InitializeAnimationTimer()
-		{
-			_animationTimer.Interval = TimeSpan.FromMilliseconds(80);
-			_animationTimer.Tick += async (_, _) => await UpdateHorsePositionsAsync();
-		}
+                offsetY += space;
 
-		private async Task UpdateHorsePositionsAsync()
-		{
-			var distanceTasks = _horses.Select(horse => horse.MoveAsync()).ToList();
+                Rectangle jockeyRectangle = new Rectangle
+                {
+                    Width = horse.JockeyImage.Width,
+                    Height = horse.JockeyImage.Height,
+                    Fill = new SolidColorBrush(horse.Color),
+                    OpacityMask = new ImageBrush
+                    {
+                        ImageSource = horse.JockeyImage.Source
+                    }
+                };
 
-			 await Task.WhenAll(distanceTasks);
+                RaceTrack.Children.Add(jockeyRectangle);
 
-			foreach (var horse in _horses)
-			{
-				Canvas.SetLeft(horse.HorseImage, horse.PositionX);
-				Canvas.SetTop(horse.HorseImage, horse.PositionY);
-				Canvas.SetLeft(horse.JockeyImage, horse.PositionX);
-				Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
-				
+                RaceTrack.Children.Add(horse.HorseImage);
 
-				if (horse is { PositionX: >=840, Finished: false })
-				{
-					horse.Time = _raceStopwatch.Elapsed;
-					_finishedCount++;
-					
-					if (_finishedCount >= _horses.Count - 1)
-					{
-						EndSimulation();
-						break;
-					}
-				}
-			}
+                Canvas.SetLeft(horse.HorseImage, horse.PositionX);
+                Canvas.SetTop(horse.HorseImage, horse.PositionY);
+                Canvas.SetLeft(jockeyRectangle, horse.PositionX);
+                Canvas.SetTop(jockeyRectangle, horse.PositionY - 30);
+            }
+        }
 
-			_horses = new ObservableCollection<HorseRace>(_horses.OrderByDescending(horse => horse.PositionX));
-			HorsesDataGrid.ItemsSource = _horses;
+        private void InitializeAnimationTimer()
+        {
+            _animationTimer.Interval = TimeSpan.FromMilliseconds(80);
+            _animationTimer.Tick += async (_, _) => await UpdateHorsePositionsAsync();
+        }
 
-			for (var i = 0; i < _horses.Count; i++) 
-			{
-				_horses[i].CurrentPosition = i + 1;
-			}
-		}
+        private async Task UpdateHorsePositionsAsync()
+        {
+            List<Task> distanceTasks = _horses.Select(horse => horse.MoveAsync()).ToList();
 
-		private void Play_Button_Click(object sender, RoutedEventArgs e)
-		{
-			InitializeHorses();
+            await Task.WhenAll(distanceTasks);
 
-			_activeHorsesNames = _horses.Select(h => h.Name).ToList();
-			if (Balance >= 0) BetBtn.IsEnabled = Balance > 0;
+            foreach (var horse in _horses)
+            {
+                Canvas.SetLeft(horse.HorseImage, horse.PositionX);
+                Canvas.SetTop(horse.HorseImage, horse.PositionY);
+                Canvas.SetLeft(horse.JockeyImage, horse.PositionX);
+                Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
 
-			_animationTimer.Start();
-			_raceStopwatch.Restart();
-			
-			PlayPanel.Visibility = Visibility.Collapsed;
-			_finishedCount = 0;
-		}
 
-		private void EndSimulation()
-		{
-			_animationTimer.Stop();
-			_raceStopwatch.Stop();
+                if (horse is { PositionX: >= 840, Finished: false })
+                {
+                    horse.Time = _raceStopwatch.Elapsed;
+                    _finishedCount++;
 
-			PlayPanel.Visibility = Visibility.Visible;
+                    if (_finishedCount >= _horses.Count - 1)
+                    {
+                        EndSimulation();
+                        break;
+                    }
+                }
+            }
 
-			_horses.Clear();
-			
-			for (int i = RaceTrack.Children.Count - 1; i >= 0; i--)
-			{
-				var child = RaceTrack.Children[i];
-				
-				if (child is FrameworkElement element && element.Tag as string == "tmp")
-				{
-					RaceTrack.Children.RemoveAt(i);
-				}
-			}
-		}
+            _horses = _horses.OrderByDescending(horse => horse.PositionX).ToList(); // Update the list
 
-		private void Previous_Bet_Btn_Click(object sender, RoutedEventArgs e) => CurrentBetIndex--;
+            // Update the UI manually
+            HorsesDataGrid.ItemsSource = null;
+            HorsesDataGrid.ItemsSource = _horses;
 
-		private void Next_Bet_Btn_Click(object sender, RoutedEventArgs e) => CurrentBetIndex++;
+            for (var i = 0; i < _horses.Count; i++)
+            {
+                _horses[i].CurrentPosition = i + 1;
+            }
+        }
 
-		private void Previous_Horse_Btn_Click(object sender, RoutedEventArgs e)
-		{
-			CurrentActiveHorseIndex--;
-			if (_horses.Count != 0) BetBtn.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
-		}
+        private void Play_Button_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeHorses();
 
-		private void Next_Horse_Btn_Click(object sender, RoutedEventArgs e) 
-		{
-			CurrentActiveHorseIndex++;
-			if (_horses.Count != 0) BetBtn.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
-		} 
+            _activeHorsesNames = _horses.Select(h => h.Name).ToList();
+            if (Balance >= 0) BetBtn.IsEnabled = Balance > 0;
 
-		private void BetBtn_Click(object sender, RoutedEventArgs e)
-		{
-			Balance -= Bets[CurrentBetIndex];
-			if (_horses.Count != 0)
-			{
-				_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).Money += Bets[CurrentBetIndex];
-				BetBtn.IsEnabled = false;
-			}
-		}
-			
-		private void OnCrtBetIndexChanging() => BetDisplay.Text = $"{Bets[CurrentBetIndex]}$";
+            _animationTimer.Start();
+            _raceStopwatch.Restart();
 
-		private void OnBalanceChanging() => DisplayBalance.Text = $"Balance: {Math.Round(Balance, 2)}$";
+            PlayPanel.Visibility = Visibility.Collapsed;
+            _finishedCount = 0;
+        }
 
-		private void OnCrtActiveHorseIndexChanging() => ActiveHorseNameDisplay.Text = _activeHorsesNames[CurrentActiveHorseIndex];
+        private void EndSimulation()
+        {
+            _animationTimer.Stop();
+            _raceStopwatch.Stop();
 
-	}
+            PlayPanel.Visibility = Visibility.Visible;
+
+            _horses.Clear();
+
+            for (int i = RaceTrack.Children.Count - 1; i >= 0; i--)
+            {
+                UIElement? child = RaceTrack.Children[i];
+
+                if (child is FrameworkElement element && element.Tag as string == "tmp")
+                {
+                    RaceTrack.Children.RemoveAt(i);
+                }
+            }
+        }
+
+        private void Previous_Bet_Btn_Click(object sender, RoutedEventArgs e) => CurrentBetIndex--;
+
+        private void Next_Bet_Btn_Click(object sender, RoutedEventArgs e) => CurrentBetIndex++;
+
+        private void Previous_Horse_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentActiveHorseIndex--;
+            if (_horses.Count != 0) BetBtn.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
+        }
+
+        private void Next_Horse_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentActiveHorseIndex++;
+            if (_horses.Count != 0) BetBtn.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
+        }
+
+        private void BetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Balance == 0)
+            {
+                Balance -= Bets[CurrentBetIndex];
+            }
+            
+            if (_horses.Count != 0)
+            {
+                _horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).Money += Bets[CurrentBetIndex];
+                BetBtn.IsEnabled = false;
+            }
+        }
+
+        private void OnCrtBetIndexChanging() => BetDisplay.Text = $"{Bets[CurrentBetIndex]}$";
+
+        private void OnBalanceChanging() => DisplayBalance.Text = $"Balance: {Math.Round(Balance, 2)}$";
+
+        private void OnCrtActiveHorseIndexChanging() => ActiveHorseNameDisplay.Text = _activeHorsesNames[CurrentActiveHorseIndex];
+
+    }
 }

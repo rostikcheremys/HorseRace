@@ -4,7 +4,7 @@ using Color = System.Windows.Media.Color;
 
 namespace Program
 {
-	class HorseRace
+	public class HorseRace
 	{ 
 		public Image HorseImage { get; set; }
 
