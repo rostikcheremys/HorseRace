@@ -5,17 +5,29 @@ using Color = System.Windows.Media.Color;
 namespace Program
 {
 	class HorseRace
-	{
-		private readonly Random _random = new();
-
+	{ 
 		public Image HorseImage { get; set; }
 
 		public Image JockeyImage { get; set; }
-
+		
 		public string Name { get; private set; }
 
 		public Color Color { get; private set; }
+		
+		public bool IsBidClosed { get; private set; }
+		
+		private int Speed { get; set; }
 
+		public int CurrentPosition { get; set; }
+
+		public int PositionX { get; private set; }
+
+		public int PositionY { get; private set; }
+		
+		private readonly Random _random = new();
+		
+		private readonly Action<double> _changeBalance;
+		
 		private TimeSpan _time;
 
 		public TimeSpan Time 
@@ -27,25 +39,15 @@ namespace Program
 				Finished = true;
 			}
 		}
+		
+		private int _animation;
 
-		private int Speed { get; set; }
-
-		public int CurrentPosition { get; set; }
-
-		public int PositionX { get; private set; }
-
-		public int PositionY { get; private set; }
-
-		private int _animationFrame;
-
-		private int AnimationFrame
+		private int Animation
 		{
-			get => _animationFrame;
-			set => _animationFrame = value % 8;
+			get => _animation;
+			set => _animation = value % 8;
 		}
-
-		public bool IsBidClosed { get; private set; }
-
+		
 		private double _money;
 
         public double Money 
@@ -63,7 +65,6 @@ namespace Program
         public double Coefficient 
 		{
 			get => _coefficient; 
-
 			set 
 			{
 				_coefficient = value;
@@ -79,6 +80,7 @@ namespace Program
 			private set 
 			{
 				_finished = value;
+				
 				if (value)
 				{
 					IsBidClosed = true;
@@ -87,18 +89,15 @@ namespace Program
 			} 
 		}
 
-		private readonly Action<double> _changeBalance;
-
 		public HorseRace(string name, Color color, int x, int y, Action<double> changeBalance)
 		{
 			Name = name;
 			Color = color;
 			IsBidClosed = false;
 			_changeBalance += changeBalance;
-
 			Speed = _random.Next(4, 7);
 			Coefficient = 1.7 - Speed / 10.0;
-			AnimationFrame = 0;
+			Animation = 0;
 
 			HorseImage = new Image
 			{
@@ -121,11 +120,11 @@ namespace Program
 		public async Task MoveAsync()
 		{
 			int distance = await Task.Run(() => (int)(Speed * (_random.Next(4, 10) / 10.0)));
+			
 			PositionX += distance;
+			Animation++;
 
-			AnimationFrame++;
-
-			var fileNumber = _animationFrame.ToString().Length > 1 ? _animationFrame.ToString() : "0" + _animationFrame.ToString();
+			string fileNumber = _animation.ToString().Length > 1 ? _animation.ToString() : "0" + _animation;
 
 			HorseImage.Source = new BitmapImage(new Uri($"Images/Horses/WithOutBorder_00{fileNumber}.png", UriKind.Relative));
 			JockeyImage.Source = new BitmapImage(new Uri($"Images/HorsesMask/mask_00{fileNumber}.png", UriKind.Relative));

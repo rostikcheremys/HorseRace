@@ -10,6 +10,14 @@ namespace Program
 {
 	public partial class MainWindow
 	{
+		public MainWindow()
+		{
+			InitializeComponent();
+			InitializeAnimationTimer();
+			OnCrtBetIndexChanging();
+			Balance = 1000;
+		}
+		
 		private ObservableCollection<HorseRace> _horses = new();
 		private readonly Stopwatch _raceStopwatch = new();
 		private readonly DispatcherTimer _animationTimer = new();
@@ -75,13 +83,7 @@ namespace Program
 			}
 		}
 
-		public MainWindow()
-		{
-			InitializeComponent();
-			InitializeAnimationTimer();
-			OnCrtBetIndexChanging();
-			Balance = 1000;
-		}
+		
 
 		private void InitializeHorses()
 		{

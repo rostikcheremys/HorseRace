@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Windows;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Controls;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace Program
 {
@@ -145,7 +145,7 @@ namespace Program
 				Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
 				
 
-				if (horse is { PositionX: >=840, Finished: false })
+				if (horse is { PositionX: >= 840, Finished: false })
 				{
 					horse.Time = _raceStopwatch.Elapsed;
 					_finishedCount++;
@@ -192,7 +192,7 @@ namespace Program
 			
 			for (int i = RaceTrack.Children.Count - 1; i >= 0; i--)
 			{
-				var child = RaceTrack.Children[i];
+				UIElement? child = RaceTrack.Children[i];
 				
 				if (child is FrameworkElement element && element.Tag as string == "tmp")
 				{

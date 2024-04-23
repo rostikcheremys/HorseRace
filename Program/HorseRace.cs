@@ -40,12 +40,12 @@ namespace Program
 			}
 		}
 		
-		private int _animation;
+		private int _animationFrame;
 
-		private int Animation
+		private int AnimationFrame
 		{
-			get => _animation;
-			set => _animation = value % 8;
+			get => _animationFrame;
+			set => _animationFrame = value % 8;
 		}
 		
 		private double _money;
@@ -97,7 +97,7 @@ namespace Program
 			_changeBalance += changeBalance;
 			Speed = _random.Next(4, 7);
 			Coefficient = 1.7 - Speed / 10.0;
-			Animation = 0;
+			AnimationFrame = 0;
 
 			HorseImage = new Image
 			{
@@ -122,9 +122,9 @@ namespace Program
 			int distance = await Task.Run(() => (int)(Speed * (_random.Next(4, 10) / 10.0)));
 			
 			PositionX += distance;
-			Animation++;
+			AnimationFrame++;
 
-			string fileNumber = _animation.ToString().Length > 1 ? _animation.ToString() : "0" + _animation;
+			string fileNumber = _animationFrame.ToString().Length > 1 ? _animationFrame.ToString() : "0" + _animationFrame;
 
 			HorseImage.Source = new BitmapImage(new Uri($"Images/Horses/WithOutBorder_00{fileNumber}.png", UriKind.Relative));
 			JockeyImage.Source = new BitmapImage(new Uri($"Images/HorsesMask/mask_00{fileNumber}.png", UriKind.Relative));
