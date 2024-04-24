@@ -168,7 +168,7 @@ namespace Program
 
                     if (_finishedCount >= _horses.Count - 1)
                     {
-                        StoppingRace();
+                        StopRace();
                         break;
                     }
                 }
@@ -199,7 +199,7 @@ namespace Program
             _finishedCount = 0;
         }
 
-        private void StoppingRace()
+        private void StopRace()
         {
             _animationTimer.Stop();
             _raceStopwatch.Stop();
