@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="HorseRace" Width="1200" Height="800" FontFamily="Arial"> 
 	<Window.Resources>
-		<program:ColorToSolidColorBrushConverter x:Key="ColorConverter"/>
+		<program:ColorConverter x:Key="ColorConverter"/>
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -63,8 +63,7 @@
 					<DataGridTemplateColumn Header="Color">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<Rectangle Width="20" Height="20" Fill="{Binding Color, Converter={StaticResource ColorConverter}}"
-								           d:DataContext="{d:DesignInstance }" />
+								<Rectangle Width="20" Height="20" Fill="{Binding Color, Converter={StaticResource ColorConverter}}" d:DataContext="{d:DesignInstance }" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

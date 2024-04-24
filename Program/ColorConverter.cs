@@ -1,11 +1,11 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace Program
 {
-    class ColorToSolidColorBrushConverter : IValueConverter
+    class ColorConverter : IValueConverter
 	{
 		public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 		{
@@ -22,6 +22,4 @@ namespace Program
 			throw new NotImplementedException();
 		}
 	}
-
-	
 }
