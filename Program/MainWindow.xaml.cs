@@ -13,17 +13,18 @@ namespace Program
         {
             InitializeComponent();
             InitializeAnimationTimer();
-            OnCrtBetIndexChanging();
+            BetIndexChanging();
             Balance = 1000;
         }
 
         private List<HorseRace> _horses = new ();
         private readonly Stopwatch _raceStopwatch = new ();
         private readonly DispatcherTimer _animationTimer = new ();
-
         private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Coco", "Spirit", "Rocky", "Blaze"];
         private List<string> _activeHorsesNames = ["Lucky"];
         private int _currentActiveHorseIndex;
+        
+        public List<int> Bets { get; } = [10, 20, 50, 100, 200, 300, 500, 1000];
 
         private int CurrentActiveHorseIndex
         {
@@ -31,17 +32,24 @@ namespace Program
 
             set
             {
-                if (value < 0) _currentActiveHorseIndex = _activeHorsesNames.Count - 1;
-                else if (value > _activeHorsesNames.Count - 1) _currentActiveHorseIndex = 0;
-                else _currentActiveHorseIndex = value;
+                if (value < 0)
+                {
+                    _currentActiveHorseIndex = _activeHorsesNames.Count - 1;
+                }
+                else if (value > _activeHorsesNames.Count - 1)
+                {
+                    _currentActiveHorseIndex = 0;
+                }
+                else
+                {
+                    _currentActiveHorseIndex = value;
+                }
 
-                OnCrtActiveHorseIndexChanging();
+                HorseIndexChanging();
             }
         }
 
         public string CurrentActiveHorse => _activeHorsesNames[_currentActiveHorseIndex];
-
-        public List<int> Bets { get; } = [10, 20, 50, 100, 200, 300, 500, 1000];
 
         private int _currentBetIndex;
 
@@ -51,11 +59,20 @@ namespace Program
 
             set
             {
-                if (value < 0) _currentBetIndex = Bets.Count - 1;
-                else if (value > Bets.Count - 1) _currentBetIndex = 0;
-                else _currentBetIndex = value;
+                if (value < 0)
+                {
+                    _currentBetIndex = Bets.Count - 1;
+                }
+                else if (value > Bets.Count - 1)
+                {
+                    _currentBetIndex = 0;
+                }
+                else
+                {
+                    _currentBetIndex = value;
+                }
 
-                OnCrtBetIndexChanging();
+                BetIndexChanging();
             }
         }
 
@@ -74,15 +91,14 @@ namespace Program
                 if (value <= 0)
                 {
                     _balance = 0;
-                    BetBtn.IsEnabled = false;
+                    BetButton.IsEnabled = false;
                 }
+                
                 else _balance = value;
 
-                OnBalanceChanging();
+                BalanceChanging();
             }
         }
-
-
 
         private void InitializeHorses()
         {
@@ -127,10 +143,10 @@ namespace Program
         private void InitializeAnimationTimer()
         {
             _animationTimer.Interval = TimeSpan.FromMilliseconds(80);
-            _animationTimer.Tick += async (_, _) => await UpdateHorsePositionsAsync();
+            _animationTimer.Tick += async (_, _) => await UpdatePositionsHorse();
         }
 
-        private async Task UpdateHorsePositionsAsync()
+        private async Task UpdatePositionsHorse()
         {
             List<Task> distanceTasks = _horses.Select(horse => horse.MoveAsync()).ToList();
 
@@ -151,15 +167,14 @@ namespace Program
 
                     if (_finishedCount >= _horses.Count - 1)
                     {
-                        EndSimulation();
+                        StoppingRace();
                         break;
                     }
                 }
             }
 
-            _horses = _horses.OrderByDescending(horse => horse.PositionX).ToList(); // Update the list
-
-            // Update the UI manually
+            _horses = _horses.OrderByDescending(horse => horse.PositionX).ToList();
+            
             HorsesDataGrid.ItemsSource = null;
             HorsesDataGrid.ItemsSource = _horses;
 
@@ -169,12 +184,12 @@ namespace Program
             }
         }
 
-        private void Play_Button_Click(object sender, RoutedEventArgs e)
+        private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
             InitializeHorses();
 
             _activeHorsesNames = _horses.Select(h => h.Name).ToList();
-            if (Balance >= 0) BetBtn.IsEnabled = Balance > 0;
+            if (Balance >= 0) BetButton.IsEnabled = Balance > 0;
 
             _animationTimer.Start();
             _raceStopwatch.Restart();
@@ -183,7 +198,7 @@ namespace Program
             _finishedCount = 0;
         }
 
-        private void EndSimulation()
+        private void StoppingRace()
         {
             _animationTimer.Stop();
             _raceStopwatch.Stop();
@@ -203,38 +218,41 @@ namespace Program
             }
         }
 
-        private void Previous_Bet_Btn_Click(object sender, RoutedEventArgs e) => CurrentBetIndex--;
+        private void Previous_Bet_Button_Click(object sender, RoutedEventArgs e) => CurrentBetIndex--;
 
-        private void Next_Bet_Btn_Click(object sender, RoutedEventArgs e) => CurrentBetIndex++;
+        private void Next_Bet_Button_Click(object sender, RoutedEventArgs e) => CurrentBetIndex++;
 
-        private void Previous_Horse_Btn_Click(object sender, RoutedEventArgs e)
+        private void Previous_Horse_Button_Click(object sender, RoutedEventArgs e)
         {
             CurrentActiveHorseIndex--;
-            if (_horses.Count != 0) BetBtn.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
+            if (_horses.Count != 0) BetButton.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
         }
 
-        private void Next_Horse_Btn_Click(object sender, RoutedEventArgs e)
+        private void Next_Horse_Button_Click(object sender, RoutedEventArgs e)
         {
             CurrentActiveHorseIndex++;
-            if (_horses.Count != 0) BetBtn.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
+            if (_horses.Count != 0) BetButton.IsEnabled = !_horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).IsBidClosed && Balance > 0;
         }
 
-        private void BetBtn_Click(object sender, RoutedEventArgs e)
+        private void Bet_Button_Click(object sender, RoutedEventArgs e)
         {
-            Balance -= Bets[CurrentBetIndex];
-            
-            if (_horses.Count != 0)
+            if (Bets[CurrentBetIndex] <= Balance)
             {
-                _horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).Money += Bets[CurrentBetIndex];
-                BetBtn.IsEnabled = false;
+                Balance -= Bets[CurrentBetIndex];
+
+                if (_horses.Count != 0)
+                {
+                    _horses.First(h => h.Name == _activeHorsesNames[CurrentActiveHorseIndex]).Money += Bets[CurrentBetIndex];
+                    BetButton.IsEnabled = false;
+                }
             }
         }
 
-        private void OnCrtBetIndexChanging() => BetDisplay.Text = $"{Bets[CurrentBetIndex]}$";
+        private void BetIndexChanging() => BetDisplay.Text = $"{Bets[CurrentBetIndex]}$";
 
-        private void OnBalanceChanging() => DisplayBalance.Text = $"Balance: {Math.Round(Balance, 2)}$";
+        private void BalanceChanging() => DisplayBalance.Text = $"Balance: {Math.Round(Balance, 2)}$";
 
-        private void OnCrtActiveHorseIndexChanging() => ActiveHorseNameDisplay.Text = _activeHorsesNames[CurrentActiveHorseIndex];
+        private void HorseIndexChanging() => ActiveHorseNameDisplay.Text = _activeHorsesNames[CurrentActiveHorseIndex];
 
     }
 }

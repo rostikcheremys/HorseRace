@@ -29,22 +29,22 @@
 
 			<Border Height="60" Background="Transparent">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Button Content="&#x25C0;" Height="25" Width="25" Background="Gray" Margin="5" Click="Previous_Bet_Btn_Click"/>
+					<Button Content="&#x25C0;" Height="25" Width="25" Background="Gray" Margin="5" Click="Previous_Bet_Button_Click"/>
 					<TextBlock x:Name="BetDisplay" Text="{Binding Bets[CurrentBetIndex], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat='{}{0}$'}" Margin="5" FontSize="24" FontWeight="Bold"/>
-					<Button Content="&#x25B6;" Height="25" Width="25" Background="Gray" Margin="5" Click="Next_Bet_Btn_Click" />
+					<Button Content="&#x25B6;" Height="25" Width="25" Background="Gray" Margin="5" Click="Next_Bet_Button_Click" />
 				</StackPanel>
 			</Border>
 
 			<Border Height="60" Background="Transparent">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Button Content="&#x25C0;" Height="25" Width="25" Background="Gray" Margin="5" Click="Previous_Horse_Btn_Click"/>
+					<Button Content="&#x25C0;" Height="25" Width="25" Background="Gray" Margin="5" Click="Previous_Horse_Button_Click"/>
 					<TextBlock x:Name="ActiveHorseNameDisplay" Text="{Binding CurrentActiveHorse, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="5" FontSize="24" FontWeight="Bold"/>
-					<Button Content="&#x25B6;" Height="25" Width="25" Background="Gray" Margin="5" Click="Next_Horse_Btn_Click" />
+					<Button Content="&#x25B6;" Height="25" Width="25" Background="Gray" Margin="5" Click="Next_Horse_Button_Click" />
 				</StackPanel>
 			</Border>
 
 			<Border Height="60">
-				<Button x:Name="BetBtn" Content="BET" Margin="10 0 10 0" Background="Yellow" VerticalAlignment="Center" FontWeight="Bold" FontSize="26" IsEnabled="False" Click="BetBtn_Click"/>
+				<Button x:Name="BetButton" Content="BET" Margin="10 0 10 0" Background="Yellow" VerticalAlignment="Center" FontWeight="Bold" FontSize="26" IsEnabled="False" Click="Bet_Button_Click"/>
 			</Border>
 		</StackPanel>
 
@@ -91,7 +91,7 @@
 					<ComboBoxItem Content="6"/>
 					<ComboBoxItem Content="7"/>
 				</ComboBox>
-				<Button Content="START" Margin="10 0 0 0" Foreground="Black" FontSize="20"  Background="Transparent" BorderBrush="Transparent" FontWeight="Bold" Click="Play_Button_Click"/>
+				<Button Content="START" Margin="10 0 0 0" Foreground="Black" FontSize="20"  Background="Transparent" BorderBrush="Transparent" FontWeight="Bold" Click="Start_Button_Click"/>
 			</StackPanel>
 		</Grid>
 	</Grid>
