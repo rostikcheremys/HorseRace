@@ -75,8 +75,8 @@
 				</DataGrid.Columns>
 			</DataGrid>
 			
-			<StackPanel x:Name="PlayPanel" Grid.Row="0" Grid.Column="0" Width="120" Margin="10" Orientation="Horizontal" Height="30" VerticalAlignment="Bottom" >
-				<ComboBox Name="NumberOfHorsesComboBox" SelectedIndex="0" Width="40" Foreground="Black" FontSize="20" FontWeight="Bold" MaxDropDownHeight="100">
+			<StackPanel x:Name="StartPanel" Grid.Row="0" Grid.Column="0" Width="120" Margin="10" Orientation="Horizontal" Height="30" VerticalAlignment="Bottom" >
+				<ComboBox Name="NumberHorses" SelectedIndex="0" Width="40" Foreground="Black" FontSize="20" FontWeight="Bold" MaxDropDownHeight="100">
 					<ComboBox.Background>
 						<LinearGradientBrush EndPoint="0,1">
 							<GradientStop Color="#FFF0F0F0"/>

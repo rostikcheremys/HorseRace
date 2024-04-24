@@ -119,7 +119,9 @@ namespace Program
 
 		public async Task MoveAsync()
 		{
-			int distance = await Task.Run(() => (int)(Speed * (_random.Next(4, 10) / 10.0)));
+			//int distance = await Task.Run(() => (int)(Speed * (_random.Next(4, 10) / 10.0)));
+			int distance = (int)(Speed * (_random.Next(4, 10) / 10.0));
+			await Task.Delay(1000); 
 			
 			PositionX += distance;
 			AnimationFrame++;

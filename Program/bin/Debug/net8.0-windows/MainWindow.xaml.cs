@@ -14,18 +14,18 @@ namespace Program
             InitializeComponent();
             InitializeAnimationTimer();
             BetIndexChanging();
-            Balance = 1000;
         }
 
         private List<HorseRace> _horses = new ();
         private readonly Stopwatch _raceStopwatch = new ();
         private readonly DispatcherTimer _animationTimer = new ();
-        private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Coco", "Spirit", "Rocky", "Blaze"];
         private List<string> _activeHorsesNames = ["Lucky"];
-        private int _currentActiveHorseIndex;
-        
+        private readonly List<string> _horsesNames = ["Lucky", "Ranger", "Willow", "Coco", "Spirit", "Rocky", "Blaze"];
+        private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Orange, Colors.Yellow, Colors.Green, Colors.DodgerBlue, Colors.Blue, Colors.Indigo];
+        private int _finishedCount;
         public List<int> Bets { get; } = [10, 20, 50, 100, 200, 300, 500, 1000];
 
+        private int _currentActiveHorseIndex;
         private int CurrentActiveHorseIndex
         {
             get => _currentActiveHorseIndex;
@@ -75,11 +75,7 @@ namespace Program
                 BetIndexChanging();
             }
         }
-
-        private readonly List<Color> _jockeyColors = [Colors.Red, Colors.Orange, Colors.Yellow, Colors.Green, Colors.DodgerBlue, Colors.Blue, Colors.Indigo];
-
-        private int _finishedCount;
-
+        
         private double _balance = 1000;
 
         public double Balance
@@ -99,6 +95,12 @@ namespace Program
                 BalanceChanging();
             }
         }
+        
+        private void BetIndexChanging() => BetDisplay.Text = $"{Bets[CurrentBetIndex]}$";
+
+        private void BalanceChanging() => DisplayBalance.Text = $"Balance: {Math.Round(Balance, 2)}$";
+
+        private void HorseIndexChanging() => ActiveHorseNameDisplay.Text = _activeHorsesNames[CurrentActiveHorseIndex];
 
         private void InitializeHorses()
         {
@@ -106,7 +108,7 @@ namespace Program
 
             int racetrackHeight = 250;
 
-            int numberOfHorses = int.Parse((NumberOfHorsesComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
+            int numberOfHorses = int.Parse((NumberHorses.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
 
             int space = racetrackHeight / (numberOfHorses - 1);
 
@@ -159,7 +161,6 @@ namespace Program
                 Canvas.SetLeft(horse.JockeyImage, horse.PositionX);
                 Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
 
-
                 if (horse is { PositionX: >= 840, Finished: false })
                 {
                     horse.Time = _raceStopwatch.Elapsed;
@@ -194,7 +195,7 @@ namespace Program
             _animationTimer.Start();
             _raceStopwatch.Restart();
 
-            PlayPanel.Visibility = Visibility.Collapsed;
+            StartPanel.Visibility = Visibility.Collapsed;
             _finishedCount = 0;
         }
 
@@ -203,7 +204,7 @@ namespace Program
             _animationTimer.Stop();
             _raceStopwatch.Stop();
 
-            PlayPanel.Visibility = Visibility.Visible;
+            StartPanel.Visibility = Visibility.Visible;
 
             _horses.Clear();
 
@@ -247,12 +248,6 @@ namespace Program
                 }
             }
         }
-
-        private void BetIndexChanging() => BetDisplay.Text = $"{Bets[CurrentBetIndex]}$";
-
-        private void BalanceChanging() => DisplayBalance.Text = $"Balance: {Math.Round(Balance, 2)}$";
-
-        private void HorseIndexChanging() => ActiveHorseNameDisplay.Text = _activeHorsesNames[CurrentActiveHorseIndex];
 
     }
 }
