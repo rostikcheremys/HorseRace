@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿﻿using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 
@@ -119,9 +119,7 @@ namespace Program
 
 		public async Task MoveAsync()
 		{
-			//int distance = await Task.Run(() => (int)(Speed * (_random.Next(4, 10) / 10.0)));
-			int distance = (int)(Speed * (_random.Next(4, 10) / 10.0));
-			await Task.Delay(1000); 
+			int distance = await Task.Run(() => (int)(Speed * (_random.Next(4, 10) / 10.0)));
 			
 			PositionX += distance;
 			AnimationFrame++;

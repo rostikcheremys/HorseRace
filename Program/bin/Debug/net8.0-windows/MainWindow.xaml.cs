@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿﻿using System.Windows;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -14,6 +14,9 @@ namespace Program
             InitializeComponent();
             InitializeAnimationTimer();
             BetIndexChanging();
+
+            MinWidth = MaxWidth = 1200;
+            MinHeight = MaxHeight = 800;
         }
 
         private List<HorseRace> _horses = new ();
@@ -106,13 +109,13 @@ namespace Program
         {
             int offsetY = 210;
 
-            int racetrackHeight = 250;
+            int heightRaceTrack = 250;
 
-            int numberOfHorses = int.Parse((NumberHorses.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
+            int numberHorses = int.Parse((NumberHorses.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty);
 
-            int space = racetrackHeight / (numberOfHorses - 1);
+            int space = heightRaceTrack / (numberHorses - 1);
 
-            for (int i = 0; i < numberOfHorses; i++)
+            for (int i = 0; i < numberHorses; i++)
             {
                 HorseRace horse = new HorseRace(_horsesNames[i], _jockeyColors[i], 20, offsetY, val => Balance += val);
 
@@ -168,7 +171,7 @@ namespace Program
 
                     if (_finishedCount >= _horses.Count - 1)
                     {
-                        StoppingRace();
+                        StopRace();
                         break;
                     }
                 }
@@ -199,7 +202,7 @@ namespace Program
             _finishedCount = 0;
         }
 
-        private void StoppingRace()
+        private void StopRace()
         {
             _animationTimer.Stop();
             _raceStopwatch.Stop();
@@ -248,6 +251,5 @@ namespace Program
                 }
             }
         }
-
     }
 }

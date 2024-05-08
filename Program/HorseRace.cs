@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿﻿using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 

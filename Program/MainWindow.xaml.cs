@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿﻿using System.Windows;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -14,6 +14,9 @@ namespace Program
             InitializeComponent();
             InitializeAnimationTimer();
             BetIndexChanging();
+
+            MinWidth = MaxWidth = 1200;
+            MinHeight = MaxHeight = 800;
         }
 
         private List<HorseRace> _horses = new ();
