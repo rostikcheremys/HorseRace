@@ -1,4 +1,4 @@
-﻿﻿using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 
@@ -20,7 +20,7 @@ namespace Program
 
 		public int CurrentPosition { get; set; }
 
-		public int PositionX { get; private set; }
+		public int PositionX { get; set; }
 
 		public int PositionY { get; private set; }
 		
@@ -55,7 +55,7 @@ namespace Program
 			get => _money;
 			set
 			{
-				_money = Math.Round(value * Coefficient, 2);
+				_money = Math.Round(value, 2);
 				IsBidClosed = true;
 			} 
 		}
@@ -96,7 +96,7 @@ namespace Program
 			IsBidClosed = false;
 			_changeBalance += changeBalance;
 			Speed = _random.Next(4, 7);
-			Coefficient = 1.7 - Speed / 10.0;
+			Coefficient = 2.1 - Speed / 10.0;
 			AnimationFrame = 0;
 
 			HorseImage = new Image

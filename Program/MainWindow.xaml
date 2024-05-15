@@ -15,7 +15,7 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<StackPanel Grid.Column="0" Width="200" Background="White">
+		<StackPanel x:Name="Sidebar" IsEnabled="False" Grid.Column="0" Width="200" Background="White">
 			<Border Height="113" Background="Yellow">
 				<TextBlock Text="HORSE RACE" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
 			</Border>
@@ -45,6 +45,10 @@
 
 			<Border Height="60">
 				<Button x:Name="BetButton" Content="BET" Margin="10 0 10 0" Background="Yellow" VerticalAlignment="Center" FontWeight="Bold" FontSize="26" IsEnabled="False" Click="Bet_Button_Click"/>
+			</Border>
+			
+			<Border Height="60">
+				<Button Content="STOP" Margin="10 0 10 0" Background="Red" VerticalAlignment="Center" FontWeight="Bold" FontSize="26" Click="Stop_Button_Click"/>
 			</Border>
 		</StackPanel>
 

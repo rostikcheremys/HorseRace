@@ -1,4 +1,4 @@
-﻿﻿using System.Windows;
+﻿using System.Windows;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -163,13 +163,13 @@ namespace Program
                 Canvas.SetTop(horse.HorseImage, horse.PositionY);
                 Canvas.SetLeft(horse.JockeyImage, horse.PositionX);
                 Canvas.SetTop(horse.JockeyImage, horse.PositionY - 30);
-
-                if (horse is { PositionX: >= 840, Finished: false })
+                
+                if (horse is { PositionX: >= 825, Finished: false })
                 {
                     horse.Time = _raceStopwatch.Elapsed;
                     _finishedCount++;
 
-                    if (_finishedCount >= _horses.Count - 1)
+                    if (_finishedCount >= _horses.Count)
                     {
                         StopRace();
                         break;
@@ -178,7 +178,7 @@ namespace Program
             }
 
             _horses = _horses.OrderByDescending(horse => horse.PositionX).ToList();
-            
+    
             HorsesDataGrid.ItemsSource = null;
             HorsesDataGrid.ItemsSource = _horses;
 
@@ -188,8 +188,12 @@ namespace Program
             }
         }
 
+
         private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
+            Sidebar.IsEnabled = true;
+            _horses.Clear();
+            
             InitializeHorses();
 
             _activeHorsesNames = _horses.Select(h => h.Name).ToList();
@@ -202,14 +206,19 @@ namespace Program
             _finishedCount = 0;
         }
 
+        private void Stop_Button_Click(object sender, RoutedEventArgs e)
+        {
+            StopRace();
+        }
+        
         private void StopRace()
         {
+            Sidebar.IsEnabled = false;
+            BetButton.IsEnabled = false;
             _animationTimer.Stop();
             _raceStopwatch.Stop();
 
             StartPanel.Visibility = Visibility.Visible;
-
-            _horses.Clear();
 
             for (int i = RaceTrack.Children.Count - 1; i >= 0; i--)
             {
