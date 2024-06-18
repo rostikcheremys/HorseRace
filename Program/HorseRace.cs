@@ -137,7 +137,7 @@ namespace Program
 
 		private void CalculateCoefficient()
 		{
-			Coefficient = Math.Round(1.7 - Speed / 10.0 + CurrentPosition / 10.0 - (CurrentPosition == 1 ? PositionX / 2500.0 : 0), 2);
+			Coefficient = Math.Round(1.7 - Speed / 10.0 + CurrentPosition / 10.0 - (CurrentPosition == 1 ? PositionX / 2000.0 : 0), 2);
 		}
 	}
 }
